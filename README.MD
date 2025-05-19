@@ -16,7 +16,7 @@ The following are the verbatim prompts that I fed to Junie other than a few "man
 #### Correct mistake
 > You put game.kt in org.example, I wanted you to put it in the package I already created, org.rex.junietest
 
-##### Manual Intervention
+#### Manual Intervention
 At this point all of the classes are inside of Game.kt, I manually move them out and fix imports.  I wanted GamePanel to be the main Renderer.  I continued with AI from here and Junie understood me as if it had made my changes itself.
 
 #### Entity class
