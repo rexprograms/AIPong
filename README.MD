@@ -63,6 +63,9 @@ This didn't actually work due to a bug introduced by the AI where the default sp
 I was pretty impressed how it made this change since it did it the way I would have.  It first generated a value for X that had a min of .25, then it subtracted that value from 1 to get the Y velocity
 > Make it so X and Y velocity always add up to 1, speed should only be determined by ballSpeed
 
+#### Manual intervention
+The ball speed was still broken, I looked at the code and noticed that the starting speed was 400, but the max was 100.  Every time the ball bounced, it just slowed down to 100.  I changed this by making the max speed 1000 and left the starting speed at 400.
+
 #### Out of credits
 This is the last "task" I gave the AI, unfortunately I was out of `data volume` and this request did not finish.  I probably would have had a completed game in another hour or so.
 > Add a new entity called NetEntity that renders a vertical line from the top of the screen to the bottom, make it so that Game has a netEntity and it is centered.
