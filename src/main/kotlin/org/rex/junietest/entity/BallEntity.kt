@@ -45,15 +45,6 @@ class BallEntity(
     }
 
     override fun render(g: Graphics2D) {
-        // Draw bounding box
-        g.color = Color(200, 200, 200, 128) // Light gray with 50% opacity
-        g.draw(Rectangle(
-            x.toInt() + boundingBox.x,
-            y.toInt() + boundingBox.y,
-            boundingBox.width,
-            boundingBox.height
-        ))
-        
         // Draw ball
         g.color = color
         g.fillOval(x.toInt(), y.toInt(), width, height)

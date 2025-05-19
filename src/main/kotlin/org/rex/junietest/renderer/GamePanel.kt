@@ -19,9 +19,10 @@ class GamePanel : JPanel() {
         private var rendering = false
         private var renderThread: Thread? = null
         private var currentFPS = 0 // Store the current FPS for rendering
+        var displayBoundingBoxes = true // Flag to control bounding box display
 
         // Rendering loop constants
-        private val maxFPS = 200
+        private val maxFPS = 500
         private val minFrameTime = 1000 / maxFPS // in milliseconds
 
         init {
@@ -127,7 +128,14 @@ class GamePanel : JPanel() {
             // Render all registered entities
             synchronized(entities) {
                 for (entity in entities) {
+                    // Render the entity
                     entity.render(g2d)
+                    
+                    // Render bounding box if enabled
+                    if (displayBoundingBoxes) {
+                        g2d.color = Color(150, 150, 150, 128) // Medium gray with 50% opacity
+                        entity.renderBoundingBox(g2d)
+                    }
                 }
             }
 

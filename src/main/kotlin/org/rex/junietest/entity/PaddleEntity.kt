@@ -10,14 +10,14 @@ import java.awt.event.KeyEvent
 /**
  * Paddle entity that renders a vertical bar with rounded corners
  */
-class PaddleEntity(
+open class PaddleEntity(
     x: Float,
     y: Float,
     private val color: Color,
     var paddleSpeed: Float = 600f,
     private val upKey: Int,
     private val downKey: Int,
-    private val gameInput: GameInput
+    private val gameInput: GameInput?
 ) : Entity(x, y, 10, 80) {
 
     init {
@@ -31,15 +31,6 @@ class PaddleEntity(
     }
 
     override fun render(g: Graphics2D) {
-        // Draw bounding box
-        g.color = Color(150, 150, 150, 128) // Medium gray with 50% opacity
-        g.draw(Rectangle(
-            x.toInt() + boundingBox.x,
-            y.toInt() + boundingBox.y,
-            boundingBox.width,
-            boundingBox.height
-        ))
-        
         // Draw paddle
         g.color = color
         // Draw a rounded rectangle with arc width and height of 10 for rounded corners
@@ -49,8 +40,8 @@ class PaddleEntity(
     override fun update(deltaTime: Float) {
         // Calculate movement based on key state
         val movement = when {
-            gameInput.isKeyPressed(upKey) -> -paddleSpeed * deltaTime
-            gameInput.isKeyPressed(downKey) -> paddleSpeed * deltaTime
+            gameInput?.isKeyPressed(upKey) == true -> -paddleSpeed * deltaTime
+            gameInput?.isKeyPressed(downKey) == true -> paddleSpeed * deltaTime
             else -> 0f
         }
 

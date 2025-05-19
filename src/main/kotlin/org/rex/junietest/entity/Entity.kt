@@ -23,6 +23,16 @@ abstract class Entity(
     // Abstract update function to be implemented by subclasses
     abstract fun update(deltaTime: Float)
 
+    // Render the bounding box if enabled
+    fun renderBoundingBox(g: Graphics2D) {
+        g.draw(Rectangle(
+            x.toInt() + boundingBox.x,
+            y.toInt() + boundingBox.y,
+            boundingBox.width,
+            boundingBox.height
+        ))
+    }
+
     // Check if this entity collides with another entity
     fun collidesWith(other: Entity): Boolean {
         // Create temporary rectangles with absolute positions

@@ -8,6 +8,7 @@ import org.rex.junietest.entity.Side
 import org.rex.junietest.entity.NetEntity
 import org.rex.junietest.entity.TextEntity
 import org.rex.junietest.entity.PaddleEntity
+import org.rex.junietest.entity.AIPaddleEntity
 import org.rex.junietest.input.GameInput
 import java.awt.Color
 import java.awt.event.KeyEvent
@@ -20,7 +21,7 @@ class Game : JFrame() {
     private val leftScoreText: TextEntity
     private val rightScoreText: TextEntity
     private val leftPaddle: PaddleEntity
-    private val rightPaddle: PaddleEntity
+    private val rightPaddle: AIPaddleEntity
     private val gameInput: GameInput
 
     // Game state
@@ -72,13 +73,11 @@ class Game : JFrame() {
             downKey = KeyEvent.VK_S,
             gameInput = gameInput
         )
-        rightPaddle = PaddleEntity(
+        rightPaddle = AIPaddleEntity(
             x = (GamePanel.PANEL_WIDTH - 50).toFloat(), // 40 pixels from right edge (50 = 40 + 10 width)
             y = (GamePanel.PANEL_HEIGHT / 2 - 40).toFloat(), // Center vertically (half of 80px height)
             color = Color(173, 216, 230), // Pastel blue
-            upKey = KeyEvent.VK_UP,
-            downKey = KeyEvent.VK_DOWN,
-            gameInput = gameInput
+            ball = ball
         )
 
         // Register the entities with the game panel
