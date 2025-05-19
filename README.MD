@@ -69,3 +69,6 @@ The ball speed was still broken, I looked at the code and noticed that the start
 #### Out of credits -- Switching to Cursor
 I ran out of credits with Junie so at this point I switch to cursor
 > Create a new class that extends entity called NetEntity, it should be centered on the screen and when it renders it should create a vertical white line 5 pixels wide from the top of the screen to the bottom
+
+#### Add score to the screen
+> Add a textentity that extends entity, it should have an update function to update the text that it displays, by default it should not show any text.  Then add a textentity to the game for the left side and the right side, position the text entitites centered at the top to the left and the right of the net.  Update the text entities with the current score for that side.

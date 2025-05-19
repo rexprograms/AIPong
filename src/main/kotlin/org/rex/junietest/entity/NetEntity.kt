@@ -9,9 +9,9 @@ import org.rex.junietest.renderer.GamePanel
  */
 class NetEntity : Entity(
     x = (GamePanel.PANEL_WIDTH / 2 - 2.5f), // Center the net with 5px width
-    y = 0f,
+    y = 10f, // Start 10 pixels from top
     width = 5,
-    height = GamePanel.PANEL_HEIGHT
+    height = GamePanel.PANEL_HEIGHT - 20 // Subtract 20 to account for 10px gap at top and bottom
 ) {
     override fun render(g: Graphics2D) {
         g.color = Color.WHITE

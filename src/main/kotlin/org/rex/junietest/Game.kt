@@ -6,6 +6,7 @@ import org.rex.junietest.entity.BallEntity
 import org.rex.junietest.entity.Entity
 import org.rex.junietest.entity.Side
 import org.rex.junietest.entity.NetEntity
+import org.rex.junietest.entity.TextEntity
 import java.awt.Color
 import java.lang.Thread.sleep
 
@@ -13,6 +14,8 @@ class Game : JFrame() {
     private val gamePanel: GamePanel
     private val ball: BallEntity
     private val net: NetEntity
+    private val leftScoreText: TextEntity
+    private val rightScoreText: TextEntity
 
     // Game state
     private var running = false
@@ -39,9 +42,23 @@ class Game : JFrame() {
         // Create the net entity
         net = NetEntity()
 
+        // Create score text entities
+        leftScoreText = TextEntity(
+            x = (GamePanel.PANEL_WIDTH / 4).toFloat(), // Position at 1/4 of screen width
+            y = 30f, // Position near top
+            fontSize = 32
+        )
+        rightScoreText = TextEntity(
+            x = (GamePanel.PANEL_WIDTH * 3 / 4).toFloat(), // Position at 3/4 of screen width
+            y = 30f, // Position near top
+            fontSize = 32
+        )
+
         // Register the entities with the game panel
         gamePanel.registerEntity(ball)
         gamePanel.registerEntity(net)
+        gamePanel.registerEntity(leftScoreText)
+        gamePanel.registerEntity(rightScoreText)
 
         pack()
         setLocationRelativeTo(null) // Center on screen
@@ -49,10 +66,21 @@ class Game : JFrame() {
         // Position the ball in the center of the panel
         ball.centerInPanel()
 
+        // Initialize score display
+        updateScoreDisplay()
+
         isVisible = true
 
         // Start the game and rendering loops
         startGame()
+    }
+
+    /**
+     * Updates the score display text entities
+     */
+    private fun updateScoreDisplay() {
+        leftScoreText.updateText(leftScore.toString())
+        rightScoreText.updateText(rightScore.toString())
     }
 
     /**
@@ -129,6 +157,7 @@ class Game : JFrame() {
             Side.LEFT -> leftScore++
             Side.RIGHT -> rightScore++
         }
+        updateScoreDisplay()
         println("Point scored by ${side.name.lowercase()} side! Score: Left $leftScore - Right $rightScore")
     }
 
