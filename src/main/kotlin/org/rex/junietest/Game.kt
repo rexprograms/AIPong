@@ -7,6 +7,7 @@ import org.rex.junietest.entity.Entity
 import org.rex.junietest.entity.Side
 import org.rex.junietest.entity.NetEntity
 import org.rex.junietest.entity.TextEntity
+import org.rex.junietest.entity.PaddleEntity
 import java.awt.Color
 import java.lang.Thread.sleep
 
@@ -16,6 +17,8 @@ class Game : JFrame() {
     private val net: NetEntity
     private val leftScoreText: TextEntity
     private val rightScoreText: TextEntity
+    private val leftPaddle: PaddleEntity
+    private val rightPaddle: PaddleEntity
 
     // Game state
     private var running = false
@@ -54,11 +57,25 @@ class Game : JFrame() {
             fontSize = 32
         )
 
+        // Create paddles
+        leftPaddle = PaddleEntity(
+            x = 40f, // 40 pixels from left edge
+            y = (GamePanel.PANEL_HEIGHT / 2 - 40).toFloat(), // Center vertically (half of 80px height)
+            color = Color(255, 182, 193) // Pastel red
+        )
+        rightPaddle = PaddleEntity(
+            x = (GamePanel.PANEL_WIDTH - 50).toFloat(), // 40 pixels from right edge (50 = 40 + 10 width)
+            y = (GamePanel.PANEL_HEIGHT / 2 - 40).toFloat(), // Center vertically (half of 80px height)
+            color = Color(173, 216, 230) // Pastel blue
+        )
+
         // Register the entities with the game panel
         gamePanel.registerEntity(ball)
         gamePanel.registerEntity(net)
         gamePanel.registerEntity(leftScoreText)
         gamePanel.registerEntity(rightScoreText)
+        gamePanel.registerEntity(leftPaddle)
+        gamePanel.registerEntity(rightPaddle)
 
         pack()
         setLocationRelativeTo(null) // Center on screen
