@@ -8,8 +8,8 @@ import java.awt.Rectangle
  * Provides position, rendering, and collision detection capabilities.
  */
 abstract class Entity(
-    var x: Int,
-    var y: Int,
+    var x: Float,
+    var y: Float,
     var width: Int,
     var height: Int
 ) {
@@ -18,7 +18,7 @@ abstract class Entity(
 
     // Get the collision bounding box
     val boundingBox: Rectangle
-        get() = Rectangle(x, y, width, height)
+        get() = Rectangle(x.toInt(), y.toInt(), width, height)
 
     // Abstract render function to be implemented by subclasses
     abstract fun render(g: Graphics2D)

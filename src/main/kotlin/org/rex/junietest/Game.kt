@@ -28,8 +28,8 @@ class Game : JFrame() {
         gamePanel = GamePanel()
         add(gamePanel)
 
-        // Create the ball entity (50% smaller than before)
-        ball = BallEntity(0, 0, 25, Color.ORANGE)
+        // Create the ball entity (50% smaller than before) with default velocity
+        ball = BallEntity(0f, 0f, 12, Color.ORANGE, BallEntity.DEFAULT_VELOCITY)
 
         // Register the ball with the game panel
         gamePanel.registerEntity(ball)
