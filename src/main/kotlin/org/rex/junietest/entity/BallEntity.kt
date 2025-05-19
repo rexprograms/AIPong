@@ -14,20 +14,16 @@ class BallEntity(
     y: Float, 
     val radius: Int, 
     val color: Color,
-    initialVelocity: Float = DEFAULT_VELOCITY,
-    val scorePoint: ((String) -> Unit)? = null
+    var ballSpeed: Float = DEFAULT_VELOCITY,
+    val scorePoint: ((Side) -> Unit)? = null
 ) : Entity(x, y, radius * 2, radius * 2) {
-    // Velocity vector (pixels per second)
+    // Normalized velocity vector (values between 0 and 1)
     var velocityX: Float = 0f
     var velocityY: Float = 0f
 
-    // Current velocity magnitude
-    var velocity: Float = initialVelocity
-        private set
-
     init {
         // Set initial velocity
-        setRandomVelocity(initialVelocity)
+        setRandomVelocity()
     }
 
     companion object {
@@ -45,23 +41,23 @@ class BallEntity(
      * Update the ball's position based on its velocity
      */
     override fun update(deltaTime: Float) {
-        // Update position based on velocity and delta time
-        x += velocityX * deltaTime
-        y += velocityY * deltaTime
+        // Update position based on normalized velocity and ball speed
+        x += velocityX * ballSpeed * deltaTime
+        y += velocityY * ballSpeed * deltaTime
 
         var bounced = false
 
         // Check if ball hits left or right sides
         if (x < 0f) {
             // Call scorePoint lambda for right side scoring
-            scorePoint?.invoke("right")
+            scorePoint?.invoke(Side.RIGHT)
             // Reset ball position to center
             centerInPanel()
             // Set a new random velocity
             setRandomVelocity()
         } else if (x > GamePanel.PANEL_WIDTH - width) {
             // Call scorePoint lambda for left side scoring
-            scorePoint?.invoke("left")
+            scorePoint?.invoke(Side.LEFT)
             // Reset ball position to center
             centerInPanel()
             // Set a new random velocity
@@ -78,30 +74,29 @@ class BallEntity(
             bounced = true
         }
 
-        // Increase velocity if the ball bounced
+        // Increase ball speed if the ball bounced
         if (bounced) {
             increaseVelocity()
         }
     }
 
     /**
-     * Increases the ball's velocity by VELOCITY_INCREASE amount
+     * Increases the ball's speed by VELOCITY_INCREASE amount
      * and ensures it doesn't exceed MAX_VELOCITY
      */
     private fun increaseVelocity() {
-        // Calculate new velocity
-        val newVelocity = (velocity + VELOCITY_INCREASE).coerceAtMost(MAX_VELOCITY)
+        // Calculate new ball speed
+        val newBallSpeed = (ballSpeed + VELOCITY_INCREASE).coerceAtMost(MAX_VELOCITY)
 
-        if (newVelocity != velocity) {
+        if (newBallSpeed != ballSpeed) {
             // Calculate current direction
             val currentDirection = Math.atan2(velocityY.toDouble(), velocityX.toDouble())
 
-            // Update velocity
-            velocity = newVelocity
+            // Update ball speed
+            ballSpeed = newBallSpeed
 
-            // Update velocity components while maintaining direction
-            velocityX = (velocity * Math.cos(currentDirection)).toFloat()
-            velocityY = (velocity * Math.sin(currentDirection)).toFloat()
+            // Keep velocityX and velocityY as normalized direction vectors
+            // We don't need to update them as they're already normalized
         }
     }
 
@@ -114,18 +109,15 @@ class BallEntity(
     }
 
     /**
-     * Sets a random velocity for the ball with the specified magnitude
-     * @param magnitude The desired velocity magnitude
+     * Sets a random velocity direction and ball speed
+     * @param magnitude The desired ball speed
      */
-    fun setRandomVelocity(magnitude: Float = DEFAULT_VELOCITY) {
-        // Set velocity to the specified magnitude
-        velocity = magnitude.coerceAtMost(MAX_VELOCITY)
-
+    fun setRandomVelocity() {
         // Generate random direction
         val angle = Random.nextFloat() * 2 * Math.PI
 
-        // Calculate velocity components
-        velocityX = (velocity * Math.cos(angle)).toFloat()
-        velocityY = (velocity * Math.sin(angle)).toFloat()
+        // Calculate normalized velocity components (values between 0 and 1)
+        velocityX = Math.cos(angle).toFloat()
+        velocityY = Math.sin(angle).toFloat()
     }
 }

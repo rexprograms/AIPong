@@ -4,6 +4,7 @@ import javax.swing.JFrame
 import org.rex.junietest.renderer.GamePanel
 import org.rex.junietest.entity.BallEntity
 import org.rex.junietest.entity.Entity
+import org.rex.junietest.entity.Side
 import java.awt.Color
 import java.lang.Thread.sleep
 
@@ -14,6 +15,8 @@ class Game : JFrame() {
     // Game state
     private var running = false
     private var gameThread: Thread? = null
+    private var leftScore = 0
+    private var rightScore = 0
 
     // Game loop constants
     private val targetFPS = 60
@@ -113,10 +116,14 @@ class Game : JFrame() {
 
     /**
      * Called when a point is scored
-     * @param side The side that scored ("left" or "right")
+     * @param side The side that scored (LEFT or RIGHT)
      */
-    private fun pointScored(side: String) {
-        println("Point scored by $side side!")
+    private fun pointScored(side: Side) {
+        when (side) {
+            Side.LEFT -> leftScore++
+            Side.RIGHT -> rightScore++
+        }
+        println("Point scored by ${side.name.lowercase()} side! Score: Left $leftScore - Right $rightScore")
     }
 
     companion object {
