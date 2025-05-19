@@ -72,3 +72,17 @@ I ran out of credits with Junie so at this point I switch to cursor
 
 #### Add score to the screen
 > Add a textentity that extends entity, it should have an update function to update the text that it displays, by default it should not show any text.  Then add a textentity to the game for the left side and the right side, position the text entitites centered at the top to the left and the right of the net.  Update the text entities with the current score for that side.
+
+#### Add paddles to the game
+> Add a PaddleEntity that extends Entity and is rendered as a verticle bar 10 pixels wide and 50 pixels tall with rounded corners on the top and bottom.  Then add a left paddle and a right paddle, each paddle should be 40 pixels from the edge of it's side and the left paddle should be a pastel red color and the right paddle should be a pastel blue color
+
+#### Add input handling for left and right paddles
+> Now register left paddle and right paddle with the input, make it so that left paddle moves up and down with the keys 'w' and 's' and make it so right paddle moves up and down with the up and down arrow keys.  Make the speed that the paddle moves similar to how the ball entity works and set a default speed of the paddle as 500
+
+There was a bug so I gave it the following prompt and it fixed the bug
+
+> it doesn't always move, i want it to move and keep moving when I hold the key down and then stop moving when I release the key
+
+#### Putting more faith in the AI, handle collisions between the ball and the paddle
+> Now handle collisions between the ball and the paddles, make the ball have a bounding box that is slightly smaller than itself on the x axis and slightly larger than itself on the Y axis.  For the paddles bounding box make it slightly taller than the paddles and the same width as the paddles.
+> 

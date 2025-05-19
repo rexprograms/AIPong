@@ -8,7 +8,9 @@ import org.rex.junietest.entity.Side
 import org.rex.junietest.entity.NetEntity
 import org.rex.junietest.entity.TextEntity
 import org.rex.junietest.entity.PaddleEntity
+import org.rex.junietest.input.GameInput
 import java.awt.Color
+import java.awt.event.KeyEvent
 import java.lang.Thread.sleep
 
 class Game : JFrame() {
@@ -19,6 +21,7 @@ class Game : JFrame() {
     private val rightScoreText: TextEntity
     private val leftPaddle: PaddleEntity
     private val rightPaddle: PaddleEntity
+    private val gameInput: GameInput
 
     // Game state
     private var running = false
@@ -38,6 +41,9 @@ class Game : JFrame() {
         // Create the game panel
         gamePanel = GamePanel()
         add(gamePanel)
+
+        // Create the game input handler
+        gameInput = GameInput(this)
 
         // Create the ball entity (50% smaller than before) with default velocity and scorePoint lambda
         ball = BallEntity(0f, 0f, 12, Color.ORANGE, BallEntity.DEFAULT_VELOCITY, this::pointScored)
@@ -61,12 +67,18 @@ class Game : JFrame() {
         leftPaddle = PaddleEntity(
             x = 40f, // 40 pixels from left edge
             y = (GamePanel.PANEL_HEIGHT / 2 - 40).toFloat(), // Center vertically (half of 80px height)
-            color = Color(255, 182, 193) // Pastel red
+            color = Color(255, 182, 193), // Pastel red
+            upKey = KeyEvent.VK_W,
+            downKey = KeyEvent.VK_S,
+            gameInput = gameInput
         )
         rightPaddle = PaddleEntity(
             x = (GamePanel.PANEL_WIDTH - 50).toFloat(), // 40 pixels from right edge (50 = 40 + 10 width)
             y = (GamePanel.PANEL_HEIGHT / 2 - 40).toFloat(), // Center vertically (half of 80px height)
-            color = Color(173, 216, 230) // Pastel blue
+            color = Color(173, 216, 230), // Pastel blue
+            upKey = KeyEvent.VK_UP,
+            downKey = KeyEvent.VK_DOWN,
+            gameInput = gameInput
         )
 
         // Register the entities with the game panel
@@ -90,6 +102,27 @@ class Game : JFrame() {
 
         // Start the game and rendering loops
         startGame()
+    }
+
+    /**
+     * Updates the game state
+     * @param deltaTime Time elapsed since the last update in seconds
+     */
+    private fun update(deltaTime: Float) {
+        // Update the ball entity
+        ball.update(deltaTime)
+        
+        // Update the paddles
+        leftPaddle.update(deltaTime)
+        rightPaddle.update(deltaTime)
+
+        // Check for collisions between ball and paddles
+        if (ball.collidesWith(leftPaddle)) {
+            ball.handlePaddleCollision(leftPaddle)
+        }
+        if (ball.collidesWith(rightPaddle)) {
+            ball.handlePaddleCollision(rightPaddle)
+        }
     }
 
     /**
@@ -155,17 +188,6 @@ class Game : JFrame() {
     }
 
     /**
-     * Updates the game state
-     * @param deltaTime Time elapsed since the last update in seconds
-     */
-    private fun update(deltaTime: Float) {
-        // Update the ball entity
-        ball.update(deltaTime)
-
-        // Additional game logic can be added here
-    }
-
-    /**
      * Called when a point is scored
      * @param side The side that scored (LEFT or RIGHT)
      */
@@ -176,6 +198,13 @@ class Game : JFrame() {
         }
         updateScoreDisplay()
         println("Point scored by ${side.name.lowercase()} side! Score: Left $leftScore - Right $rightScore")
+    }
+
+    /**
+     * Get the game input handler
+     */
+    fun getGameInput(): GameInput {
+        return gameInput
     }
 
     companion object {
