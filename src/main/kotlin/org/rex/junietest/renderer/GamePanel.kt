@@ -12,14 +12,14 @@ import javax.swing.JPanel
 import java.lang.Thread.sleep
 
 class GamePanel : JPanel() {
-        // List to track all registered entities
+        // List to track all registered entitiesﬁ
         private val entities = mutableListOf<Entity>()
 
         // Rendering state
         private var rendering = false
         private var renderThread: Thread? = null
         private var currentFPS = 0 // Store the current FPS for rendering
-        var displayBoundingBoxes = true // Flag to control bounding box display
+        var displayBoundingBoxes = false // Flag to control bounding box display
 
         // Rendering loop constants
         private val maxFPS = 500
