@@ -66,6 +66,6 @@ I was pretty impressed how it made this change since it did it the way I would h
 #### Manual intervention
 The ball speed was still broken, I looked at the code and noticed that the starting speed was 400, but the max was 100.  Every time the ball bounced, it just slowed down to 100.  I changed this by making the max speed 1000 and left the starting speed at 400.
 
-#### Out of credits
-This is the last "task" I gave the AI, unfortunately I was out of `data volume` and this request did not finish.  I probably would have had a completed game in another hour or so.
-> Add a new entity called NetEntity that renders a vertical line from the top of the screen to the bottom, make it so that Game has a netEntity and it is centered.
+#### Out of credits -- Switching to Cursor
+I ran out of credits with Junie so at this point I switch to cursor
+> Create a new class that extends entity called NetEntity, it should be centered on the screen and when it renders it should create a vertical white line 5 pixels wide from the top of the screen to the bottom

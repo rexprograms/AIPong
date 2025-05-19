@@ -5,12 +5,14 @@ import org.rex.junietest.renderer.GamePanel
 import org.rex.junietest.entity.BallEntity
 import org.rex.junietest.entity.Entity
 import org.rex.junietest.entity.Side
+import org.rex.junietest.entity.NetEntity
 import java.awt.Color
 import java.lang.Thread.sleep
 
 class Game : JFrame() {
     private val gamePanel: GamePanel
     private val ball: BallEntity
+    private val net: NetEntity
 
     // Game state
     private var running = false
@@ -34,8 +36,12 @@ class Game : JFrame() {
         // Create the ball entity (50% smaller than before) with default velocity and scorePoint lambda
         ball = BallEntity(0f, 0f, 12, Color.ORANGE, BallEntity.DEFAULT_VELOCITY, this::pointScored)
 
-        // Register the ball with the game panel
+        // Create the net entity
+        net = NetEntity()
+
+        // Register the entities with the game panel
         gamePanel.registerEntity(ball)
+        gamePanel.registerEntity(net)
 
         pack()
         setLocationRelativeTo(null) // Center on screen
