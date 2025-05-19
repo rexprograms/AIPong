@@ -27,7 +27,7 @@ class BallEntity(
     }
 
     companion object {
-        const val MAX_VELOCITY = 100f
+        const val MAX_VELOCITY = 1000f
         const val DEFAULT_VELOCITY = 400f
         const val VELOCITY_INCREASE = 5f
     }
@@ -88,15 +88,14 @@ class BallEntity(
         // Calculate new ball speed
         val newBallSpeed = (ballSpeed + VELOCITY_INCREASE).coerceAtMost(MAX_VELOCITY)
 
+        println("ballSpeed: $ballSpeed newBallSpeed: $newBallSpeed")
+
         if (newBallSpeed != ballSpeed) {
             // Calculate current direction
             val currentDirection = Math.atan2(velocityY.toDouble(), velocityX.toDouble())
 
             // Update ball speed
             ballSpeed = newBallSpeed
-
-            // Keep velocityX and velocityY as normalized direction vectors
-            // We don't need to update them as they're already normalized
         }
     }
 
@@ -110,14 +109,22 @@ class BallEntity(
 
     /**
      * Sets a random velocity direction and ball speed
-     * @param magnitude The desired ball speed
+     * Ensures that:
+     * 1. The sum of absolute values of velocityX and velocityY is exactly 1
+     * 2. The absolute value of velocityX is at least 0.25
      */
     fun setRandomVelocity() {
-        // Generate random direction
-        val angle = Random.nextFloat() * 2 * Math.PI
+        // Generate a random X velocity with absolute value at least 0.25
+        val minXVelocity = 0.25f
+        val xSign = if (Random.nextBoolean()) 1 else -1
+        val absVelocityX = minXVelocity + Random.nextFloat() * (1f - minXVelocity)
+        velocityX = xSign * absVelocityX
 
-        // Calculate normalized velocity components (values between 0 and 1)
-        velocityX = Math.cos(angle).toFloat()
-        velocityY = Math.sin(angle).toFloat()
+        // Calculate Y velocity so that |velocityX| + |velocityY| = 1 exactly
+        val absVelocityY = 1f - absVelocityX
+        val ySign = if (Random.nextBoolean()) 1 else -1
+        velocityY = ySign * absVelocityY
+
+        println("velocityX: $velocityX, velocityY: $velocityY")
     }
 }
