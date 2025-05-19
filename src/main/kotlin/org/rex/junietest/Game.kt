@@ -22,13 +22,14 @@ class Game : JFrame() {
     init {
         title = "Ball Game"
         defaultCloseOperation = EXIT_ON_CLOSE
+        isResizable = false // Prevent window resizing
 
         // Create the game panel
         gamePanel = GamePanel()
         add(gamePanel)
 
-        // Create the ball entity
-        ball = BallEntity(0, 0, 50, Color.ORANGE)
+        // Create the ball entity (50% smaller than before)
+        ball = BallEntity(0, 0, 25, Color.ORANGE)
 
         // Register the ball with the game panel
         gamePanel.registerEntity(ball)
@@ -37,8 +38,7 @@ class Game : JFrame() {
         setLocationRelativeTo(null) // Center on screen
 
         // Position the ball in the center of the panel
-        ball.x = gamePanel.width / 2 - ball.radius
-        ball.y = gamePanel.height / 2 - ball.radius
+        ball.centerInPanel()
 
         isVisible = true
 
@@ -105,11 +105,10 @@ class Game : JFrame() {
      * @param deltaTime Time elapsed since the last update in seconds
      */
     private fun update(deltaTime: Float) {
-        // Update game logic here
-        // For now, we don't have any dynamic elements to update
+        // Update the ball entity
+        ball.update(deltaTime)
 
-        // Example: You could add movement to the ball here
-        // ball.x += (100 * deltaTime).toInt()
+        // Additional game logic can be added here
     }
 
     companion object {

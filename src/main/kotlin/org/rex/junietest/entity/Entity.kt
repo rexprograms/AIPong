@@ -23,6 +23,9 @@ abstract class Entity(
     // Abstract render function to be implemented by subclasses
     abstract fun render(g: Graphics2D)
 
+    // Abstract update function to be implemented by subclasses
+    abstract fun update(deltaTime: Float)
+
     // Check if this entity collides with another entity
     fun collidesWith(other: Entity): Boolean {
         return boundingBox.intersects(other.boundingBox)

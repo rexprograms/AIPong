@@ -25,10 +25,16 @@ class GamePanel : JPanel() {
         private val minFrameTime = 1000 / maxFPS // in milliseconds
 
         init {
-            preferredSize = Dimension(800, 600)
+            preferredSize = Dimension(PANEL_WIDTH, PANEL_HEIGHT)
             background = Color.BLACK
             // Set double buffering for smoother rendering
             isDoubleBuffered = true
+        }
+
+        companion object {
+            // Static width and height variables
+            const val PANEL_WIDTH = 800
+            const val PANEL_HEIGHT = 600
         }
 
         /**
