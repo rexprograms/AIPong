@@ -28,8 +28,8 @@ class Game : JFrame() {
         gamePanel = GamePanel()
         add(gamePanel)
 
-        // Create the ball entity (50% smaller than before) with default velocity
-        ball = BallEntity(0f, 0f, 12, Color.ORANGE, BallEntity.DEFAULT_VELOCITY)
+        // Create the ball entity (50% smaller than before) with default velocity and scorePoint lambda
+        ball = BallEntity(0f, 0f, 12, Color.ORANGE, BallEntity.DEFAULT_VELOCITY, this::pointScored)
 
         // Register the ball with the game panel
         gamePanel.registerEntity(ball)
@@ -109,6 +109,14 @@ class Game : JFrame() {
         ball.update(deltaTime)
 
         // Additional game logic can be added here
+    }
+
+    /**
+     * Called when a point is scored
+     * @param side The side that scored ("left" or "right")
+     */
+    private fun pointScored(side: String) {
+        println("Point scored by $side side!")
     }
 
     companion object {

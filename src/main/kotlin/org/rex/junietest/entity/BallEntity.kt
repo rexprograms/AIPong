@@ -14,7 +14,8 @@ class BallEntity(
     y: Float, 
     val radius: Int, 
     val color: Color,
-    initialVelocity: Float = DEFAULT_VELOCITY
+    initialVelocity: Float = DEFAULT_VELOCITY,
+    val scorePoint: ((String) -> Unit)? = null
 ) : Entity(x, y, radius * 2, radius * 2) {
     // Velocity vector (pixels per second)
     var velocityX: Float = 0f
@@ -50,15 +51,21 @@ class BallEntity(
 
         var bounced = false
 
-        // Simple boundary checking to keep the ball within the panel
+        // Check if ball hits left or right sides
         if (x < 0f) {
-            x = 0f
-            velocityX = -velocityX // Bounce off left wall
-            bounced = true
+            // Call scorePoint lambda for right side scoring
+            scorePoint?.invoke("right")
+            // Reset ball position to center
+            centerInPanel()
+            // Set a new random velocity
+            setRandomVelocity()
         } else if (x > GamePanel.PANEL_WIDTH - width) {
-            x = (GamePanel.PANEL_WIDTH - width).toFloat()
-            velocityX = -velocityX // Bounce off right wall
-            bounced = true
+            // Call scorePoint lambda for left side scoring
+            scorePoint?.invoke("left")
+            // Reset ball position to center
+            centerInPanel()
+            // Set a new random velocity
+            setRandomVelocity()
         }
 
         if (y < 0f) {
