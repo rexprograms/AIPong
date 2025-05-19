@@ -8,7 +8,7 @@ A vibe coded AI pong game using Junie with very little manual code editing.
  
 ## Prompts
 
-The following are the verbatim prompts that I fed to Junie other than a few small adjustments, the rest of the code was generated/modified for me
+The following are the verbatim prompts that I fed to Junie other than a few "manual interventions," the rest of the code was generated for me by the AI agent.  This includes moving files around on the file system in some cases.
 
 #### Bootstrap the app
 > I want to make a game, create a main class that will do all of the boiler plate game stuff.  Make it render a graphics window with an orange ball in the middle.  Create additional classes if necessary.
